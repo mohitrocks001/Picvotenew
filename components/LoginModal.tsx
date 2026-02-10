@@ -39,7 +39,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         handle: user.email?.split("@")[0] || "user",
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
       });
-
       onClose();
     } catch (err: any) {
       setError(err.message);
@@ -54,39 +53,44 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <X />
         </button>
 
-        <h2 className="text-2xl font-bold text-center mb-6">
-          {isSignup ? "Create Account" : "Login"}
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          {isSignup ? "Create account" : "Sign in"}
         </h2>
 
+        {error && (
+          <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+        )}
+
         <input
-          type="email"
+          className="w-full border p-2 rounded mb-3"
           placeholder="Email"
-          className="w-full border rounded-xl px-4 py-3 mb-3"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
+          className="w-full border p-2 rounded mb-4"
           type="password"
           placeholder="Password"
-          className="w-full border rounded-xl px-4 py-3 mb-3"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-
-        <Button className="w-full py-3" onClick={handleAuth}>
-          {isSignup ? "Sign Up" : "Login"}
+        <Button onClick={handleAuth} className="w-full">
+          {isSignup ? "Sign up" : "Sign in"}
         </Button>
 
         <p
-          className="text-center text-sm mt-4 text-indigo-600 cursor-pointer"
+          className="text-sm mt-4 text-center cursor-pointer text-blue-600"
           onClick={() => setIsSignup(!isSignup)}
         >
-          {isSignup ? "Already have an account? Login" : "New user? Create account"}
+          {isSignup
+            ? "Already have an account? Sign in"
+            : "No account? Create one"}
         </p>
+
       </div>
     </div>
   );
 };
+
