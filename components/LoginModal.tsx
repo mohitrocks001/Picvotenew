@@ -14,6 +14,11 @@ interface LoginModalProps {
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
+  const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [isSignup, setIsSignup] = useState(false);
+const [error, setError] = useState("");
+
   if (!isOpen) return null;
 
   const handleMockLogin = () => {
