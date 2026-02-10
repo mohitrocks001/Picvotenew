@@ -13,24 +13,29 @@ interface LoginModalProps {
   onLogin: (user: User) => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
-  const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [isSignup, setIsSignup] = useState(false);
-const [error, setError] = useState("");
+const handleAuth = async () => {
+  try {
+    setError("");
 
-  if (!isOpen) return null;
+    const cred = isSignup
+      ? await createUserWithEmailAndPassword(auth, email, password)
+      : await signInWithEmailAndPassword(auth, email, password);
 
-  const handleMockLogin = () => {
-    const mockUser: User = {
-      id: 'u-' + Math.random().toString(36).substr(2, 5),
-      name: 'Creative Soul',
-      handle: 'creative_mind',
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`
-    };
-    onLogin(mockUser);
+    const user = cred.user;
+
+    onLogin({
+      id: user.uid,
+      name: user.email || "User",
+      handle: user.email?.split("@")[0] || "user",
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`
+    });
+
     onClose();
-  };
+  } catch (err: any) {
+    setError(err.message);
+  }
+};
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
