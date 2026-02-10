@@ -54,7 +54,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <X />
         </button>
 
-               <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6">
           {isSignup ? "Create Account" : "Login"}
         </h2>
 
@@ -90,4 +90,3 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     </div>
   );
 };
-
