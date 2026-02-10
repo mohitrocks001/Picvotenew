@@ -1,8 +1,11 @@
+import React, { useState } from "react";
+import { X, Twitter, Instagram, Mail } from "lucide-react";
+import { Button } from "./Button";
+import { User } from "../types";
 
-import React from 'react';
-import { X, Twitter, Instagram, Mail } from 'lucide-react';
-import { Button } from './Button';
-import { User } from '../types';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
 
 interface LoginModalProps {
   isOpen: boolean;
