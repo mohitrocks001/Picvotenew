@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, Twitter, Instagram, Mail } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "./Button";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
@@ -14,17 +14,15 @@ interface LoginModalProps {
 export const LoginModal: React.FC<LoginModalProps> = ({
   isOpen,
   onClose,
-  onLogin
+  onLogin,
 }) => {
   if (!isOpen) return null;
 
-  // ✅ STATES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
 
-  // ✅ REAL FIREBASE AUTH
   const handleAuth = async () => {
     try {
       setError("");
@@ -39,7 +37,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         id: user.uid,
         name: user.email || "User",
         handle: user.email?.split("@")[0] || "user",
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
       });
 
       onClose();
@@ -48,48 +46,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     }
   };
 
-  // ✅ JSX MUST BE INSIDE COMPONENT
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
-      <div className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl p-10 relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
+      <div className="bg-white rounded-3xl p-8 w-full max-w-md relative">
 
-        <button onClick={onClose} className="absolute top-8 right-8 p-2">
+        <button onClick={onClose} className="absolute top-4 right-4">
           <X />
         </button>
 
-        <div className="space-y-4">
-
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full border rounded-xl px-4 py-3"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full border rounded-xl px-4 py-3"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {error && <p className="text-red-500">{error}</p>}
-
-          <Button onClick={handleAuth}>
-            {isSignup ? "Sign Up" : "Login"}
-          </Button>
-
-          <p
-            className="text-sm text-center cursor-pointer text-indigo-600"
-            onClick={() => setIsSignup(!isSignup)}
-          >
-            {isSignup ? "Already have an account? Login" : "New user? Create account"}
-          </p>
-
-        </div>
-      </div>
-    </div>
-  );
-};
+        <h2 className="text-2xl font-bold text-center mb-6">Lo
