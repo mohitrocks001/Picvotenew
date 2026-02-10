@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { X } from "lucide-react";
+import { X, Twitter, Instagram, Mail } from "lucide-react";
 import { Button } from "./Button";
-import { User } from "../types";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { User } from "../types";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -18,11 +18,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  // ✅ STATES
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
 
+  // ✅ REAL FIREBASE AUTH
   const handleAuth = async () => {
     try {
       setError("");
@@ -46,20 +48,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     }
   };
 
+  // ✅ JSX MUST BE INSIDE COMPONENT
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
       <div className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl p-10 relative overflow-hidden">
 
-        <button
-          onClick={onClose}
-          className="absolute top-8 right-8 p-2 hover:bg-zinc-100 rounded-full"
-        >
-          <X className="w-6 h-6" />
+        <button onClick={onClose} className="absolute top-8 right-8 p-2">
+          <X />
         </button>
-
-        <h2 className="text-3xl font-black text-center mb-6">
-          {isSignup ? "Create Account" : "Login"}
-        </h2>
 
         <div className="space-y-4">
 
@@ -79,13 +75,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-          <Button
-            variant="ghost"
-            className="w-full py-4"
-            onClick={handleAuth}
-          >
+          <Button onClick={handleAuth}>
             {isSignup ? "Sign Up" : "Login"}
           </Button>
 
@@ -93,9 +85,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             className="text-sm text-center cursor-pointer text-indigo-600"
             onClick={() => setIsSignup(!isSignup)}
           >
-            {isSignup
-              ? "Already have an account? Login"
-              : "New user? Create account"}
+            {isSignup ? "Already have an account? Login" : "New user? Create account"}
           </p>
 
         </div>
