@@ -1,8 +1,11 @@
+import React, { useState } from "react";
+import { X, Twitter, Instagram, Mail } from "lucide-react";
+import { Button } from "./Button";
+import { User } from "../types";
 
-import React from 'react';
-import { X, Twitter, Instagram, Mail } from 'lucide-react';
-import { Button } from './Button';
-import { User } from '../types';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,19 +13,29 @@ interface LoginModalProps {
   onLogin: (user: User) => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
-  if (!isOpen) return null;
+const handleAuth = async () => {
+  try {
+    setError("");
 
-  const handleMockLogin = () => {
-    const mockUser: User = {
-      id: 'u-' + Math.random().toString(36).substr(2, 5),
-      name: 'Creative Soul',
-      handle: 'creative_mind',
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${Math.random()}`
-    };
-    onLogin(mockUser);
+    const cred = isSignup
+      ? await createUserWithEmailAndPassword(auth, email, password)
+      : await signInWithEmailAndPassword(auth, email, password);
+
+    const user = cred.user;
+
+    onLogin({
+      id: user.uid,
+      name: user.email || "User",
+      handle: user.email?.split("@")[0] || "user",
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`
+    });
+
     onClose();
-  };
+  } catch (err: any) {
+    setError(err.message);
+  }
+};
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
@@ -42,6 +55,24 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
         </div>
 
         <div className="space-y-4">
+          <input
+  type="email"
+  placeholder="Email"
+  className="w-full border rounded-xl px-4 py-3 outline-none"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
+
+<input
+  type="password"
+  placeholder="Password"
+  className="w-full border rounded-xl px-4 py-3 outline-none"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
+{error && <p className="text-red-500 text-sm">{error}</p>}
+
           <Button variant="outline" className="w-full py-4 border-zinc-100 hover:bg-zinc-50 gap-3" onClick={handleMockLogin}>
             <Twitter className="w-5 h-5 text-[#1DA1F2] fill-current" />
             Continue with Twitter (X)
@@ -55,10 +86,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
             <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">or</span>
             <div className="h-[1px] bg-zinc-100 flex-1" />
           </div>
-          <Button variant="ghost" className="w-full py-4 text-zinc-500 hover:text-black gap-3" onClick={handleMockLogin}>
-            <Mail className="w-5 h-5" />
-            Continue with Email
-          </Button>
+         <Button
+  variant="ghost"
+  className="w-full py-4 text-zinc-500 hover:text-black gap-3"
+  onClick={handleAuth}
+>
+  {isSignup ? "Sign Up" : "Login"}
+</Button>
+
         </div>
 
         <p className="mt-10 text-[10px] text-zinc-400 text-center font-bold uppercase tracking-widest leading-loose">
