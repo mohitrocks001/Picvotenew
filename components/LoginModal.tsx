@@ -54,4 +54,40 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <X />
         </button>
 
-        <h2 className="text-2xl font-bold text-center mb-6">Lo
+               <h2 className="text-2xl font-bold text-center mb-6">
+          {isSignup ? "Create Account" : "Login"}
+        </h2>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full border rounded-xl px-4 py-3 mb-3"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full border rounded-xl px-4 py-3 mb-3"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+
+        <Button className="w-full py-3" onClick={handleAuth}>
+          {isSignup ? "Sign Up" : "Login"}
+        </Button>
+
+        <p
+          className="text-center text-sm mt-4 text-indigo-600 cursor-pointer"
+          onClick={() => setIsSignup(!isSignup)}
+        >
+          {isSignup ? "Already have an account? Login" : "New user? Create account"}
+        </p>
+      </div>
+    </div>
+  );
+};
+
