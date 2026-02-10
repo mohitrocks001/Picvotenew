@@ -55,6 +55,24 @@ const handleAuth = async () => {
         </div>
 
         <div className="space-y-4">
+          <input
+  type="email"
+  placeholder="Email"
+  className="w-full border rounded-xl px-4 py-3 outline-none"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
+
+<input
+  type="password"
+  placeholder="Password"
+  className="w-full border rounded-xl px-4 py-3 outline-none"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
+{error && <p className="text-red-500 text-sm">{error}</p>}
+
           <Button variant="outline" className="w-full py-4 border-zinc-100 hover:bg-zinc-50 gap-3" onClick={handleMockLogin}>
             <Twitter className="w-5 h-5 text-[#1DA1F2] fill-current" />
             Continue with Twitter (X)
