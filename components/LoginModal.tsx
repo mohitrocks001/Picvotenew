@@ -52,47 +52,43 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
       <div className="bg-white rounded-3xl p-8 w-full max-w-md relative">
-        <button onClick={onClose} className="absolute top-4 right-4">
-          <X />
-        </button>
+      <h2 className="text-2xl font-bold text-center mb-6">
+  {isSignup ? "Create account" : "Sign in"}
+</h2>
 
-        <h2 className="text-2xl font-bold text-center mb-6">
-          {isSignup ? "Create account" : "Sign in"}
-        </h2>
+{error && (
+  <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+)}
 
-        {error && (
-          <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
-        )}
+<input
+  className="w-full border rounded-lg p-3 mb-3"
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
-        <input
-          className="w-full border rounded-lg p-3 mb-3"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+<input
+  className="w-full border rounded-lg p-3 mb-4"
+  type="password"
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
 
-        <input
-          className="w-full border rounded-lg p-3 mb-4"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+<Button className="w-full mb-3" onClick={handleAuth}>
+  {isSignup ? "Sign up" : "Login"}
+</Button>
 
-        <Button className="w-full mb-3" onClick={handleAuth}>
-          {isSignup ? "Sign up" : "Login"}
-        </Button>
-
-        <p className="text-center text-sm">
-          {isSignup ? "Already have an account?" : "No account yet?"}{" "}
-          <button
-            className="text-indigo-600 font-semibold"
-            onClick={() => setIsSignup(!isSignup)}
-          >
-            {isSignup ? "Login" : "Sign up"}
-          </button>
-        </p>
-      </div>
+<p className="text-center text-sm">
+  {isSignup ? "Already have an account?" : "No account yet?"}{" "}
+  <button
+    className="text-indigo-600 font-semibold"
+    onClick={() => setIsSignup(!isSignup)}
+  >
+    {isSignup ? "Login" : "Sign up"}
+  </button>
+</p>
+</div>
     </div>
   );
 };
