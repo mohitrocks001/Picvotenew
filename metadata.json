@@ -1,0 +1,7 @@
+{
+  "name": "PICVOTE Pro",
+  "description": "A high-end photo contest platform where digital creators showcase their visual stories and the community votes for the best. Features AI-powered photo analysis using Gemini.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
