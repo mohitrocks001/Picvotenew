@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "./Button";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { User } from "../types";
 
@@ -16,12 +19,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   onClose,
   onLogin,
 }) => {
-  if (!isOpen) return null;
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
+
+  if (!isOpen) return null;
 
   const handleAuth = async () => {
     try {
@@ -39,6 +42,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         handle: user.email?.split("@")[0] || "user",
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`,
       });
+
       onClose();
     } catch (err: any) {
       setError(err.message);
@@ -93,4 +97,3 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     </div>
   );
 };
-
