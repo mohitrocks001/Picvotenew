@@ -86,10 +86,14 @@ const handleAuth = async () => {
             <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">or</span>
             <div className="h-[1px] bg-zinc-100 flex-1" />
           </div>
-          <Button variant="ghost" className="w-full py-4 text-zinc-500 hover:text-black gap-3" onClick={handleMockLogin}>
-            <Mail className="w-5 h-5" />
-            Continue with Email
-          </Button>
+         <Button
+  variant="ghost"
+  className="w-full py-4 text-zinc-500 hover:text-black gap-3"
+  onClick={handleAuth}
+>
+  {isSignup ? "Sign Up" : "Login"}
+</Button>
+
         </div>
 
         <p className="mt-10 text-[10px] text-zinc-400 text-center font-bold uppercase tracking-widest leading-loose">
