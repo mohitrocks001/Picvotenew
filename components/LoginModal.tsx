@@ -8,7 +8,7 @@ import {
 import { auth } from "../firebase";
 import { User } from "../types";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../firebase/firestore";
 
 interface LoginModalProps {
   isOpen: boolean;
