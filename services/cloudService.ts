@@ -1,33 +1,25 @@
-
-import { Candidate, VoteState, User } from '../types';
-import { INITIAL_CANDIDATES } from '../constants';
-
-/**
- * MOCK CLOUD SERVICE
- * In a real production app, you would replace these localStorage calls 
- * with calls to a real database SDK like Supabase or Firebase.
- * 
- * Example (Supabase):
- * const { data } = await supabase.from('candidates').select('*');
- */
-
-const DELAY = 800; // Simulate network latency
+const isBrowser = typeof window !== "undefined";
 
 export const cloudService = {
-  // Fetch the global gallery
-  async getCandidates(): Promise<Candidate[]> {
+  async getCandidates() {
     return new Promise((resolve) => {
       setTimeout(() => {
+        if (!isBrowser) {
+          resolve(INITIAL_CANDIDATES);
+          return;
+        }
+
         const saved = localStorage.getItem('candidates_v1');
         resolve(saved ? JSON.parse(saved) : INITIAL_CANDIDATES);
       }, DELAY);
     });
   },
 
-  // Save a new entry to the cloud
-  async addCandidate(candidate: Candidate): Promise<void> {
+  async addCandidate(candidate) {
     return new Promise((resolve) => {
       setTimeout(() => {
+        if (!isBrowser) return resolve();
+
         const saved = localStorage.getItem('candidates_v1');
         const current = saved ? JSON.parse(saved) : INITIAL_CANDIDATES;
         localStorage.setItem('candidates_v1', JSON.stringify([candidate, ...current]));
@@ -36,26 +28,30 @@ export const cloudService = {
     });
   },
 
-  // Update votes in the cloud
-  async updateVotes(candidateId: string, increment: number): Promise<void> {
+  async updateVotes(candidateId, increment) {
     return new Promise((resolve) => {
       setTimeout(() => {
+        if (!isBrowser) return resolve();
+
         const saved = localStorage.getItem('candidates_v1');
         if (saved) {
-          const current: Candidate[] = JSON.parse(saved);
-          const updated = current.map(c => 
-            c.id === candidateId ? { ...c, votes: Math.max(0, c.votes + increment) } : c
+          const current = JSON.parse(saved);
+          const updated = current.map(c =>
+            c.id === candidateId
+              ? { ...c, votes: Math.max(0, c.votes + increment) }
+              : c
           );
           localStorage.setItem('candidates_v1', JSON.stringify(updated));
         }
         resolve();
-      }, 300); // Votes should feel slightly faster
+      }, 300);
     });
   },
 
-  // Sync user session
-  async getUserSession(): Promise<User | null> {
+  async getUserSession() {
     return new Promise((resolve) => {
+      if (!isBrowser) return resolve(null);
+
       const saved = localStorage.getItem('currentUser_v1');
       resolve(saved ? JSON.parse(saved) : null);
     });
